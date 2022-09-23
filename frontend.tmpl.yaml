@@ -1,0 +1,49 @@
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
+    name: react-test
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: website
+  namespace: react-test
+  labels:
+    app: website
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: website
+  template:
+    metadata:
+      labels:
+        app: website
+    spec:
+      containers:
+      - name: website
+        image: ${ECR_REPOSITORY}/test-ecr-repo:${IMAGE_TAG}
+        ports:
+        - containerPort: 80
+          name: website
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: website
+    namespace: react-test
+    labels:
+        app: website
+spec:
+    type: LoadBalancer
+    selector:
+        app: website
+    ports:
+     - port: 80
+       protocol: TCP  
+       targetPort: 80
