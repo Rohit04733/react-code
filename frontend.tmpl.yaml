@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: website
-        image: ${ECR_REPOSITORY}/test-ecr-repo:${IMAGE_TAG}
+        image: ${ECR_REPOSITORY}:${IMAGE_TAG}
         ports:
         - containerPort: 80
           name: website
